@@ -9,13 +9,49 @@
     <meta property="og:description" content="Tra cứu mã đối tác, hoa hồng và danh sách đối tác liên kết - Long Châu">
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
-        iframe { border: none; width: 100%; height: 100%; }
+        iframe { border: none; width: 100%; height: 100%; display: block; }
+
+        /* Lớp phủ loading hiển thị trong lúc Apps Script đang tải */
+        #loading {
+            position: fixed; inset: 0; z-index: 10;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: linear-gradient(160deg, #EAF6F8 0%, #FBF0F5 100%);
+            font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+            transition: opacity .4s ease;
+        }
+        #loading.hide { opacity: 0; pointer-events: none; }
+        .spinner {
+            width: 52px; height: 52px; border-radius: 50%;
+            border: 5px solid #d3e4e8;
+            border-top-color: #2F7FA8;
+            border-right-color: #A33E78;
+            animation: spin 0.9s linear infinite;
+            margin-bottom: 18px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        #loading .title { font-size: 16px; font-weight: 700; color: #1F6B85; letter-spacing: 0.3px; }
+        #loading .sub { font-size: 13px; color: #5B6B70; margin-top: 6px; }
     </style>
 </head>
 <body>
+    <!-- Dấu hiệu loading -->
+    <div id="loading">
+        <div class="spinner"></div>
+        <div class="title">PORTAL ĐỐI TÁC LIÊN KẾT</div>
+        <div class="sub">Đang tải dữ liệu, vui lòng chờ trong giây lát...</div>
+    </div>
+
     <!-- ⬇⬇⬇  THAY LINK NÀY MỖI LẦN DEPLOY APPS SCRIPT BẢN MỚI  ⬇⬇⬇ -->
     <!-- Dán URL kết thúc bằng /exec của Web app (Deploy > Web app). -->
-    <iframe src="https://script.google.com/macros/s/AKfycbzeBh9BvM8RlmBNNM8rAWs74QF492Wej0A7eAa06_wy-uHr2Zyadqv8Zhr3B9-dTivRhA/exec"></iframe>
+    <iframe id="portal" src="https://script.google.com/macros/s/AKfycbyxvD_9XdSsbvdSigZXtLIpDFqTCbqBgCtoD5loSA8qCWOtrPhanAm0FPUNJxMRhDgITw/exec"></iframe>
     <!-- ⬆⬆⬆ -------------------------------------------------------- ⬆⬆⬆ -->
+
+    <script>
+        var frame = document.getElementById('portal');
+        var loading = document.getElementById('loading');
+        function hideLoading(){ loading.classList.add('hide'); }
+        frame.addEventListener('load', hideLoading);
+        setTimeout(hideLoading, 12000);
+    </script>
 </body>
 </html>
